@@ -1,7 +1,7 @@
-<?php 
-function consumindoApi()
+<?php
+function funcaoApi()
 {
-	$request = wp_remote_post('https://api.cartaoparceiro.com.br/graphql', [
+	$request = wp_remote_post('https://informeSuaApi.com.br/api', [
 		'headers' => [
 			'Content-Type' => 'application/json',
 		],
@@ -16,7 +16,47 @@ function consumindoApi()
 									phone,
 									address{
 										city
-										street
+										street												
+										number
+										state
+										neighborhood
+									},
+									
+									category{
+										title
+									},
+									
+									subCategories{
+										title
+									}
+								}    
+							}
+						}
+				'
+		])
+	]);
+	$decoded_response = json_decode($request['body'], true);
+}
+
+
+function consumindoApi()
+{
+	$request = wp_remote_post('https://informeSuaApi.com.br/api', [
+		'headers' => [
+			'Content-Type' => 'application/json',
+		],
+		'body' => wp_json_encode([
+			'query' => '
+						{
+							getAccrediteds{
+								id
+								firstName
+								lastName    
+								accredited{
+									phone,
+									address{
+										city
+										street												
 										number
 										state
 										neighborhood
@@ -58,4 +98,3 @@ function consumindoApi()
 			</tr>";
 	}
 }
-?>
